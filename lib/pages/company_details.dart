@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zydat_color_panel/component/header.dart';
-import 'package:zydat_color_panel/component/info_card.dart';
 import 'package:zydat_color_panel/component/text_field.dart';
 import 'package:zydat_color_panel/config/responsive.dart';
 import 'package:zydat_color_panel/config/size_config.dart';
-import 'package:zydat_color_panel/pages/user_maintanence.dart';
 import 'package:zydat_color_panel/style/colors.dart';
 import 'package:zydat_color_panel/style/style.dart';
 import 'package:collection/collection.dart';
@@ -20,7 +18,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
   bool isSideMenuVisible = true;
   String dropdownvalue = 'Role 1';
   bool isChecked = false;
-  Set<int> selectedIndices = Set<int>();
+  Set<int> selectedIndices = <int>{};
   var items = [
     'Role 1',
     'Role 2',
@@ -187,7 +185,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
       'name': 'demoBoxOne',
       'email': 'demoBoxOne@fitnyc_edu',
       'role': 'Super Admin',
-      'brand': 'Zydattestone',
+      'brand': '',
       'status': 'Active',
       'actions': [
         IconButton(
@@ -212,7 +210,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
       'name': 'demoBoxOne',
       'email': 'demoBoxOne@fitnyc_edu',
       'role': 'Super Admin',
-      'brand': 'Zydattestone',
+      'brand': 'Zydattestone, Demo Brand, Zydattesttwo',
       'status': 'Active',
       'actions': [
         IconButton(
@@ -237,7 +235,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
       'name': 'demoBoxOne',
       'email': 'demoBoxOne@fitnyc_edu',
       'role': 'Super Admin',
-      'brand': 'Zydattestone',
+      'brand': 'Zydattestone, Demo Brand',
       'status': 'Active',
       'actions': [
         IconButton(
@@ -262,7 +260,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
       'name': 'demoBoxOne',
       'email': 'demoBoxOne@fitnyc_edu',
       'role': 'Super Admin',
-      'brand': 'Zydattestone',
+      'brand': '',
       'status': 'Active',
       'actions': [
         IconButton(
@@ -287,7 +285,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
       'name': 'demoBoxOne',
       'email': 'demoBoxOne@fitnyc_edu',
       'role': 'Super Admin',
-      'brand': 'Zydattestone',
+      'brand': 'Zydattestone, Zydattesttwo',
       'status': 'Active',
       'actions': [
         IconButton(
@@ -309,6 +307,38 @@ class _CompanyDetailsState extends State<CompanyDetails> {
       ],
     },
   ];
+  List<Map<String, dynamic>> brandsList = [
+    {
+      'brand': 'Zydattestone',
+      'status': 'Enabled',
+      'actions': [
+        IconButton(
+          icon: const Icon(Icons.edit),
+          onPressed: () {},
+        ),
+      ],
+    },
+    {
+      'brand': 'Demo Brand',
+      'status': 'Disabled',
+      'actions': [
+        IconButton(
+          icon: const Icon(Icons.edit),
+          onPressed: () {},
+        ),
+      ],
+    },
+    {
+      'brand': 'Zydattesttwo',
+      'status': 'Disabled',
+      'actions': [
+        IconButton(
+          icon: const Icon(Icons.edit),
+          onPressed: () {},
+        ),
+      ],
+    },
+  ];
 
   void toggleSideMenuVisibility() {
     setState(() {
@@ -316,87 +346,87 @@ class _CompanyDetailsState extends State<CompanyDetails> {
     });
   }
 
-  void _showAddCompanyDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: PrimaryText(
-            text: 'Add Company',
-            size: Responsive.isDesktop(context) ? 18 : 14,
-            color: AppColors.black,
-            fontWeight: FontWeight.w600,
-          ),
-          content: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildTextField("Company Name", context),
-              PrimaryText(
-                text: 'Select Plan',
-                color: AppColors.iconGray,
-                size: Responsive.isMobile(context) ? 11 : 14,
-                fontWeight: FontWeight.w600,
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: const Color(0XFFFFFFFF),
-                    border: Border.all(color: Colors.black38, width: 1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 10),
-                      child: DropdownButton(
-                        value: planValue,
-                        icon: const Padding(
-                            padding: EdgeInsets.only(left: 20),
-                            child: Icon(Icons.arrow_drop_down)),
-                        iconEnabledColor: AppColors.primary,
-                        style: const TextStyle(
-                            color: AppColors.primary,
-                            fontSize: 16,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600),
-                        dropdownColor: const Color(0XFFF7EEE5),
-                        underline: Container(),
-                        isExpanded: true,
-                        items: plans.map((String plans) {
-                          return DropdownMenuItem(
-                            value: plans,
-                            child: Text(plans),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            planValue = newValue!;
-                          });
-                        },
-                      ))),
-              const SizedBox(
-                height: 18,
-              ),
-              buildTextField("No. of Admins", context),
-              buildTextField("No. of Users", context),
-              buildTextField("No. of Viewers", context),
-              buildTextField("Start Date", context),
-              buildTextField("End Date", context),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void _showAddCompanyDialog(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: PrimaryText(
+  //           text: 'Add Company',
+  //           size: Responsive.isDesktop(context) ? 18 : 14,
+  //           color: AppColors.black,
+  //           fontWeight: FontWeight.w600,
+  //         ),
+  //         content: Column(
+  //           mainAxisAlignment: MainAxisAlignment.start,
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             buildTextField("Company Name", context),
+  //             PrimaryText(
+  //               text: 'Select Plan',
+  //               color: AppColors.iconGray,
+  //               size: Responsive.isMobile(context) ? 11 : 14,
+  //               fontWeight: FontWeight.w600,
+  //             ),
+  //             const SizedBox(
+  //               height: 5,
+  //             ),
+  //             DecoratedBox(
+  //                 decoration: BoxDecoration(
+  //                   color: const Color(0XFFFFFFFF),
+  //                   border: Border.all(color: Colors.black38, width: 1),
+  //                   borderRadius: BorderRadius.circular(8),
+  //                 ),
+  //                 child: Padding(
+  //                     padding: const EdgeInsets.only(left: 15, right: 10),
+  //                     child: DropdownButton(
+  //                       value: planValue,
+  //                       icon: const Padding(
+  //                           padding: EdgeInsets.only(left: 20),
+  //                           child: Icon(Icons.arrow_drop_down)),
+  //                       iconEnabledColor: AppColors.primary,
+  //                       style: const TextStyle(
+  //                           color: AppColors.primary,
+  //                           fontSize: 16,
+  //                           fontFamily: 'Poppins',
+  //                           fontWeight: FontWeight.w600),
+  //                       dropdownColor: const Color(0XFFF7EEE5),
+  //                       underline: Container(),
+  //                       isExpanded: true,
+  //                       items: plans.map((String plans) {
+  //                         return DropdownMenuItem(
+  //                           value: plans,
+  //                           child: Text(plans),
+  //                         );
+  //                       }).toList(),
+  //                       onChanged: (String? newValue) {
+  //                         setState(() {
+  //                           planValue = newValue!;
+  //                         });
+  //                       },
+  //                     ))),
+  //             const SizedBox(
+  //               height: 18,
+  //             ),
+  //             buildTextField("No. of Admins", context),
+  //             buildTextField("No. of Users", context),
+  //             buildTextField("No. of Viewers", context),
+  //             buildTextField("Start Date", context),
+  //             buildTextField("End Date", context),
+  //           ],
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //             child: const Text('Close'),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   void _showAddAdminDialog(BuildContext context) {
     showDialog(
@@ -424,43 +454,40 @@ class _CompanyDetailsState extends State<CompanyDetails> {
               const SizedBox(
                 height: 5,
               ),
-              Container(
-                // margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: const Color(0XFFFFFFFF),
-                      border: Border.all(color: Colors.black38, width: 1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 10),
-                        child: DropdownButton(
-                          value: dropdownvalue,
-                          icon: const Padding(
-                              padding: EdgeInsets.only(left: 20),
-                              child: Icon(Icons.arrow_drop_down)),
-                          iconEnabledColor: AppColors.primary,
-                          style: const TextStyle(
-                              color: AppColors.primary,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600),
-                          dropdownColor: const Color(0XFFF7EEE5),
-                          underline: Container(),
-                          isExpanded: true,
-                          items: items.map((String items) {
-                            return DropdownMenuItem(
-                              value: items,
-                              child: Text(items),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownvalue = newValue!;
-                            });
-                          },
-                        ))),
-              ),
+              DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: const Color(0XFFFFFFFF),
+                    border: Border.all(color: Colors.black38, width: 1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 10),
+                      child: DropdownButton(
+                        value: dropdownvalue,
+                        icon: const Padding(
+                            padding: EdgeInsets.only(left: 20),
+                            child: Icon(Icons.arrow_drop_down)),
+                        iconEnabledColor: AppColors.primary,
+                        style: const TextStyle(
+                            color: AppColors.primary,
+                            fontSize: 16,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600),
+                        dropdownColor: const Color(0XFFF7EEE5),
+                        underline: Container(),
+                        isExpanded: true,
+                        items: items.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownvalue = newValue!;
+                          });
+                        },
+                      ))),
             ],
           ),
           actions: <Widget>[
@@ -504,6 +531,380 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                               name: 'User',
                               openAlertDialog: () =>
                                   _showAddAdminDialog(context),
+                            ),
+                            Header(
+                              'Brand Access',
+                              isBtnAvailable: false,
+                            ),
+                            Row(
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Responsive.isDesktop(context)
+                                        ? const PrimaryText(
+                                            text: 'Actual Count',
+                                            color: AppColors.buttonBg,
+                                            size: 26,
+                                            fontWeight: FontWeight.w600,
+                                          )
+                                        : const PrimaryText(
+                                            text: 'Actual Count',
+                                            color: AppColors.buttonBg,
+                                            size: 16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Row(
+                                      children: [
+                                        PrimaryText(
+                                          text: 'Admins',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        PrimaryText(
+                                          text: ':',
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        PrimaryText(
+                                          text: '10',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Row(
+                                      children: [
+                                        PrimaryText(
+                                          text: 'Colorists',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        PrimaryText(
+                                          text: ':',
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        PrimaryText(
+                                          text: '10',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Row(
+                                      children: [
+                                        PrimaryText(
+                                          text: 'Viewers',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        PrimaryText(
+                                          text: ':',
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        PrimaryText(
+                                          text: '10',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Row(
+                                      children: [
+                                        PrimaryText(
+                                          text: 'Plan',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        PrimaryText(
+                                          text: ':',
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        PrimaryText(
+                                          text: 'Small Plan',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 40,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Responsive.isDesktop(context)
+                                        ? const PrimaryText(
+                                            text: 'Used Count',
+                                            color: AppColors.buttonBg,
+                                            size: 26,
+                                            fontWeight: FontWeight.w600,
+                                          )
+                                        : const PrimaryText(
+                                            text: 'Used Count',
+                                            color: AppColors.buttonBg,
+                                            size: 16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Row(
+                                      children: [
+                                        PrimaryText(
+                                          text: 'Admins',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        PrimaryText(
+                                          text: ':',
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        PrimaryText(
+                                          text: '10',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Row(
+                                      children: [
+                                        PrimaryText(
+                                          text: 'Colorists',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        PrimaryText(
+                                          text: ':',
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        PrimaryText(
+                                          text: '10',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Row(
+                                      children: [
+                                        PrimaryText(
+                                          text: 'Viewers',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        PrimaryText(
+                                          text: ':',
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        PrimaryText(
+                                          text: '10',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Row(
+                                      children: [
+                                        PrimaryText(
+                                          text: 'Plan',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        PrimaryText(
+                                          text: ':',
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        PrimaryText(
+                                          text: 'Small Plan',
+                                          size: 20,
+                                          color: AppColors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            Row(children: <Widget>[
+                              SingleChildScrollView(
+                                  scrollDirection:
+                                      MediaQuery.of(context).size.width < 1024
+                                          ? Axis.horizontal
+                                          : Axis.vertical,
+                                  child: SizedBox(
+                                    child: DataTable(
+                                      decoration: const BoxDecoration(),
+                                      headingRowColor:
+                                          MaterialStateProperty.all<Color>(
+                                              AppColors.tableHeaderBg),
+                                      dataRowColor:
+                                          MaterialStateProperty.all<Color>(
+                                              const Color(0XFFFFFFFF)),
+                                      headingRowHeight: 40,
+                                      dataRowMaxHeight: 60,
+                                      columns: const [
+                                        DataColumn(
+                                            label: Center(
+                                          child: PrimaryText(
+                                              text: 'Brand Name',
+                                              size: 18,
+                                              align: TextAlign.center,
+                                              fontWeight: FontWeight.w700),
+                                        )),
+                                        DataColumn(
+                                          label: PrimaryText(
+                                              text: 'Status',
+                                              size: 18,
+                                              align: TextAlign.center,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                        DataColumn(
+                                          label: PrimaryText(
+                                              text: 'Actions',
+                                              size: 18,
+                                              align: TextAlign.center,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                      ],
+                                      rows: brandsList
+                                          .mapIndexed(
+                                            (index, data) => DataRow(
+                                                key: UniqueKey(),
+                                                cells: [
+                                                  DataCell(
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          vertical: 8.0),
+                                                      child: PrimaryText(
+                                                        text: data['brand'],
+                                                        color:
+                                                            AppColors.secondary,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        size: 16,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  DataCell(
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          vertical: 8.0),
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 8.0,
+                                                                horizontal:
+                                                                    8.0),
+                                                        color: data['status'] ==
+                                                                'Active'
+                                                            ? Colors
+                                                                .green // Active button background color
+                                                            : Colors.red,
+                                                        child: PrimaryText(
+                                                          text: data['status'],
+                                                          color: AppColors
+                                                              .primaryBg,
+                                                          size: 16,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  DataCell(
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        IconButton(
+                                                          icon: const Icon(
+                                                              Icons.edit),
+                                                          color: Colors
+                                                              .blue, // Edit icon color
+                                                          onPressed: () {
+                                                            // Handle edit action
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ]),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ))
+                            ]),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical! * 4,
                             ),
                             Header(
                               'Members',

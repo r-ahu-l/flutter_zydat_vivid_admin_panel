@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zydat_color_panel/component/header.dart';
-import 'package:zydat_color_panel/component/info_card.dart';
 import 'package:zydat_color_panel/component/text_field.dart';
 import 'package:zydat_color_panel/config/responsive.dart';
 import 'package:zydat_color_panel/config/size_config.dart';
